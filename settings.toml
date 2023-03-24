@@ -1,0 +1,65 @@
+
+[default]
+name = "pp-mattei"
+rf_params = {n_estimators=3000, max_depth=200, min_samples_leaf=7}
+features = ["month", "chl", "sst", "sat_par", "Zeu", "kd_490", "longhurst", "basin", "biome", "daylength"]
+log_features = ["chl", "pprod", "pp_obs", "ep_obs"]
+scatter_xlabel = "Observed Primary Production (mg C m$^{-2}$ d$^{-1}$)"
+scatter_ylabel = "Predicted Primary Production (mg C m$^{-2}$ d$^{-1}$)"
+x1 = 0.01
+x2 = 1e2
+fig_file_pref  = ""
+maxdepth = 200
+input_file = "mattei_daily_sat.h5"
+y_feature = "pp_obs"
+above_zeu = true
+figs_datadir = "./figs"
+input_datadir = "./indata"
+
+[mapps-pbmax-daily]
+input_file = "mapps_daily_sat.h5"
+y_feature = "PBmax"
+scatter_xlabel = "Observed P_bmax"
+scatter_ylabel = "Predicted P_bmax"
+x1 = 1
+x2 = 1e4
+
+[mapps-alpha-daily]
+input_file = "mapps_daily_sat.h5"
+y_feature = "alpha"
+log_features = ["chl", "pprod", "pp_obs", "ep_obs", "alpha"]
+scatter_xlabel = "Observed alpha"
+scatter_ylabel = "Predicted alpha"
+x1 = 1
+x2 = 1.2
+
+[mapps-PB-daily]
+input_file = "mapps_daily_sat.h5"
+log_features = ["chl", "pprod", "pp_obs", "PB"]
+fig_file_pref  = "RF_mapps_daily_PB"
+y_feature = "PB"
+scatter_xlabel = "Observed PB"
+scatter_ylabel = "Predicted PB"
+
+
+[mapps-pbmax-monthly]
+input_file = "mapps_monthly_sat.h5"
+log_features = ["chl", "pprod", "pp_obs", "PBmax"]
+y_feature = "PBmax"
+scatter_xlabel = "Observed P_bmax"
+scatter_ylabel = "Predicted P_bmax"
+
+[mapps-alpha-monthly]
+input_file = "mapps_monthly_sat.h5"
+y_feature = "alpha"
+scatter_xlabel = "Observed alpha"
+scatter_ylabel = "Predicted alpha"
+x1 = 1
+x2 = 1.2
+
+[mapps-PB-monthly]
+input_file = "mapps_monthly_sat.h5"
+fig_file_pref  = "RF_mapps_monthly_PB"
+y_feature = "PB"
+scatter_xlabel = "Observed PB"
+scatter_ylabel = "Predicted PB"

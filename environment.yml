@@ -1,0 +1,13 @@
+name: mapps
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - cartopy
+  - matplotlib-base
+  - pip
+  - python=3.10.2=hc74c709_3_cpython
+  - pip:
+    - oceandata==0.3.1
+    - git+https://github.com/brorfred/ocean_forest.git
+
