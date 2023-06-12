@@ -111,7 +111,7 @@ def match_upstream(days_behind=30):
         ds[key] = (("sample",), df[key])
     return ds
 
-def mean_upstream(days_behind=0, filename="mapps_upstream_sat.nc"):
+def mean_upstream(days_behind=0, filename="upstream_files//mapps_upstream_sat.nc"):
     dfdict = {}
     ds = xr.open_dataset(filename)
     for key in ds.data_vars:
@@ -122,7 +122,7 @@ def mean_upstream(days_behind=0, filename="mapps_upstream_sat.nc"):
     dfdict["date"] = ds.date[:,-1].values
     return pd.DataFrame(dfdict)
 
-def count_upstream(days_behind=0, filename="mapps_upstream_sat.nc"):
+def count_upstream(days_behind=0, filename="upstream_files//mapps_upstream_sat.nc"):
     dfdict = {}
     ds = xr.open_dataset(filename)
     for key in ds.data_vars:
@@ -130,7 +130,7 @@ def count_upstream(days_behind=0, filename="mapps_upstream_sat.nc"):
             dfdict[key] = np.nansum(ds[key][:,-1-days_behind:]*0+1, axis=1)
     return pd.DataFrame(dfdict)
 
-def std_upstream(days_behind=0, filename="mapps_upstream_sat.nc"):
+def std_upstream(days_behind=0, filename="upstream_files//mapps_upstream_sat.nc"):
     dfdict = {}
     ds = xr.open_dataset(filename)
     for key in ds.data_vars:
@@ -141,8 +141,8 @@ def std_upstream(days_behind=0, filename="mapps_upstream_sat.nc"):
 def all_upstream_files(daylist = range(0,30)):
     for days in daylist:
         df = mean_upstream(days_behind=days)
-        df.to_csv(f"upstream_files/averages/mapps_{days:03}_days_mean.csv")
+        df.to_csv(f"upstream_files/statistics/mapps_{days:03}_days_mean.csv")
         df = std_upstream(days_behind=days)
-        df.to_csv(f"upstream_files/averages/mapps_{days:03}_days_std.csv")
+        df.to_csv(f"upstream_files/statistics/mapps_{days:03}_days_std.csv")
         df = count_upstream(days_behind=days)
-        df.to_csv(f"upstream_files/averages/mapps_{days:03}_days_count.csv")
+        df.to_csv(f"upstream_files/statistics/mapps_{days:03}_days_count.csv")
