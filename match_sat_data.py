@@ -141,8 +141,8 @@ def std_upstream(days_behind=0, filename="mapps_upstream_sat.nc"):
 def all_upstream_files(daylist = range(0,30)):
     for days in daylist:
         df = mean_upstream(days_behind=days)
-        df.to_csv(f"upstream_files/mapps_{days:02}_days_mean.csv")
+        df.to_csv(f"upstream_files/averages/mapps_{days:03}_days_mean.csv")
         df = std_upstream(days_behind=days)
-        df.to_csv(f"upstream_files/mapps_{days:02}_days_std.csv")
+        df.to_csv(f"upstream_files/averages/mapps_{days:03}_days_std.csv")
         df = count_upstream(days_behind=days)
-        df.to_csv(f"upstream_files/mapps_{days:02}_days_count.csv")
+        df.to_csv(f"upstream_files/averages/mapps_{days:03}_days_count.csv")
