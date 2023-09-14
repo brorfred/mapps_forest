@@ -1,6 +1,6 @@
 # mapps_forest
 
-mapps_forest is an implementation of the  ocean_forest Python package to perform Random Forest regressions based on in-situ obervations of ocean properties. This case is set up for the MAPPS data set.
+mapps_forest is an implementation of the ocean_forest Python package to perform Random Forest regressions based on in-situ observations of ocean properties. This case is set up for the MAPPS data set.
 
 ## Installation
 
@@ -20,7 +20,7 @@ import ocean_forest
 df = ocean_forest.load(env="mapps-alpha-daily")
 # Fit a Random forest model to data
 ocean_forest.regress(env="mapps-alpha-daily", depths=True, min_samples_leaf=8)
-#Available hyper parameters can be found at
+#Available hyperparameters can be found at
 #https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestRegressor.html
 
 #Generate figures:
