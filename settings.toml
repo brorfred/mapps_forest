@@ -1,65 +1,87 @@
 
 [default]
-name = "pp-mattei"
-rf_params = {n_estimators=3000, max_depth=200, min_samples_leaf=7}
-features = ["month", "chl", "sst", "sat_par", "Zeu", "kd_490", "longhurst", "basin", "biome", "daylength"]
+name = "ep-best"
+#rf_params = {n_estimators=3000, max_depth=300, min_samples_leaf=6}
+rf_params = {n_estimators = 370, max_depth = 32, min_samples_split = 2, min_samples_leaf = 2, max_features = "log2"}
+xgb_params = {nthread=-1, tree_method="approx"}
+features = ["month", "chl", "sst", "sat_par", "Zeu", "kd_490", "basin"]
 log_features = ["chl", "pprod", "pp_obs", "ep_obs"]
-scatter_xlabel = "Observed Primary Production (mg C m$^{-2}$ d$^{-1}$)"
-scatter_ylabel = "Predicted Primary Production (mg C m$^{-2}$ d$^{-1}$)"
-x1 = 0.01
-x2 = 1e2
+scatter_xlabel = "Observed Export Production (mg C m$^{-2}$ d$^{-1}$)"
+scatter_ylabel = "Predicted Export Production (mg C m$^{-2}$ d$^{-1}$)"
+x1 = 0.1
+x2 = 1e3
 fig_file_pref  = ""
-maxdepth = 200
-input_file = "mattei_daily_sat.h5"
-y_feature = "pp_obs"
-above_zeu = true
+maxdepth = 1000
+input_file = "mouw_monthly_sat_full_par.h5"
+y_feature = "ep_obs"
+above_zeu = false
 figs_datadir = "./figs"
 input_datadir = "./indata"
 
-[mapps-pbmax-daily]
-input_file = "mapps_daily_sat.h5"
-y_feature = "PBmax"
-scatter_xlabel = "Observed P_bmax"
-scatter_ylabel = "Predicted P_bmax"
-x1 = 1
-x2 = 1e4
-
-[mapps-alpha-daily]
-input_file = "mapps_daily_sat.h5"
-y_feature = "alpha"
-log_features = ["chl", "pprod", "pp_obs", "ep_obs", "alpha"]
-scatter_xlabel = "Observed alpha"
-scatter_ylabel = "Predicted alpha"
-x1 = 1
-x2 = 1.2
-
-[mapps-PB-daily]
-input_file = "mapps_daily_sat.h5"
-log_features = ["chl", "pprod", "pp_obs", "PB"]
-fig_file_pref  = "RF_mapps_daily_PB"
-y_feature = "PB"
-scatter_xlabel = "Observed PB"
-scatter_ylabel = "Predicted PB"
+[ep-rf]
+  name = "ep-RF-best"
+  y_feature = "ep_obs"
+  [ep-rf.rf_params]
+    n_estimators = 370
+    max_depth = 32
+    min_samples_split = 2
+    min_samples_leaf = 2
+    max_features = "log2"
 
 
-[mapps-pbmax-monthly]
-input_file = "mapps_monthly_sat.h5"
-log_features = ["chl", "pprod", "pp_obs", "PBmax"]
-y_feature = "PBmax"
-scatter_xlabel = "Observed P_bmax"
-scatter_ylabel = "Predicted P_bmax"
 
-[mapps-alpha-monthly]
-input_file = "mapps_monthly_sat.h5"
-y_feature = "alpha"
-scatter_xlabel = "Observed alpha"
-scatter_ylabel = "Predicted alpha"
-x1 = 1
-x2 = 1.2
+[ep-xgboost]
+  name = "ep-xgboost"
 
-[mapps-PB-monthly]
-input_file = "mapps_monthly_sat.h5"
-fig_file_pref  = "RF_mapps_monthly_PB"
-y_feature = "PB"
-scatter_xlabel = "Observed PB"
-scatter_ylabel = "Predicted PB"
+  [ep-xgboost.xgb_params]
+    tree_method="hist"
+    min_child_weight=2
+    booster = "gbtree"
+    lambda = 0.0014827319334437085
+    alpha = 3.3467640766496714e-08
+    subsample = 0.8191574894232188
+    colsample_bynode = 0.8088945102384242
+    reg_lambda = 19.58104015331891
+    max_depth = 11
+    eta = 0.4096969502360625
+    gamma = 1.0548222145396643e-05
+    grow_policy = "lossguide"
+    device = "cuda"
+
+
+    #   tree_method: approx
+    # min_child_weight: 1
+    # booster: dart
+    # lambda: 0.001396330409814792
+    # alpha: 0.949759668193326
+    # subsample: 0.9370354245159198
+    # colsample_bynode: 0.6649894630084585
+    # reg_lambda: 17.41021780297294
+    # max_depth: 11
+    # eta: 2.3464956481246766e-08
+    # gamma: 4.061922535832828e-07
+    # grow_policy: depthwise
+    # sample_type: weighted
+    # normalize_type: forest
+    # rate_drop: 0.00011689360891049891
+    # skip_drop: 3.7849279489120896e-07
+
+[ep-psd]
+features = ["month", "chl", "sst", "sat_par", "Zeu", "kd_490", "basin", "psd"]
+input_file = "mouw_rf_sat_month_psd.h5"
+above_zeu = false
+
+[ep-biomes]
+features = ["month", "chl", "sst", "sat_par", "Zeu", "kd_490", "basin", 'biome']
+
+[ep-euphotic]
+above_zeu = true
+
+[ep-longhurst]
+features = ["lat", "lon", "depth", "chl", "sst", 'month', 'sat_par',
+            'basin', 'biome', "kd_490","Zeu", "longhurst"]
+
+[ep-depth-profiles]
+features = ["lat", "lon", "depth", "chl", "sst", 'month', 'sat_par',
+           'basin', 'biome', "kd_490","Zeu", "longhurst", "UUID"]
+
