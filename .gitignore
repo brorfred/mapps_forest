@@ -70,3 +70,6 @@ Backup[ ]of[ ]*.numbers/
 .tmux.conf
 .tramp_history
 .vscode
+# pixi environments
+.pixi
+*.egg-info
