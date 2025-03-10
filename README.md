@@ -23,11 +23,15 @@ ocean_forest.regress(env="mapps-alpha-daily", depths=True, min_samples_leaf=8)
 #Available hyper parameters can be found at
 #https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestRegressor.html
 
-#Generate figures:
+# Generate figures:
 figures.all_evaluation_figs(model)
 
 # Hyper parameters and other presets are set in the 'settings.toml' file 
 # Existing default models are saved in the subfolder rf_models
 
 ```
+
+# References
+https://github.com/zillow/quantile-forest
+https://www.jmlr.org/papers/volume7/meinshausen06a/meinshausen06a.pdf
 
