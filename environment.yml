@@ -8,6 +8,8 @@ dependencies:
   - pip
   - python=3.10.2=hc74c709_3_cpython
   - pip:
-    - oceandata==0.3.1
+    - shap
+    - quantile-forest
+    - oceandata
     - git+https://github.com/brorfred/ocean_forest.git
 
