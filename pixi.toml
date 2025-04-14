@@ -28,9 +28,13 @@ jupyterlab = ">=4.3.3,<5"
 optuna-integration = ">=4.1.0,<5"
 pyresample = ">=1.31.0,<2"
 interpret = ">=0.6.8,<0.7"
+optuna-dashboard = ">=0.17.0,<0.18"
+gunicorn = ">=23.0.0,<24"
+cmap = ">=0.6.0,<0.7"
 
 [pypi-dependencies]
 ocean-forest = { git = "https://github.com/brorfred/ocean_forest.git" }
 njord = { path = "/home/bror/code/njord", editable = true }
 projmap = { path = "/home/bror/code/projmap", editable = true }
+optuna-fast-fanova = ">=0.0.4, <0.0.5"
 
