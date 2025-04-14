@@ -28,6 +28,30 @@ input_datadir = "./indata"
     min_samples_leaf = 2
     max_features = "log2"
 
+[ep-rf-allsat]
+    name = "ep-rf-allsat"
+    y_feature = "ep_obs"
+    input_file = "mouw_monthly_allsat_owt.h5"
+    features = ["month", "chl", "sst", "sat_par", "Zeu", "kd_490", "basin",
+                "water_class13", "water_class12", "water_class10",
+                "atot_510", "atot_560",
+                ]
+    [ep-rf-allsat.rf_params]
+        n_estimators = 500
+        max_depth = 36
+        min_samples_split = 2
+        min_samples_leaf = 2
+        max_features = "log2"
+
+#features = ["month", "chl", "sst", "sat_par", "Zeu", "kd_490", "basin",
+#            "water_class1", "water_class10", "water_class11", "water_class12",
+#            "water_class13", "water_class14", "water_class2", "water_class3",
+#            "water_class4", "water_class5", "water_class6", "water_class7",
+#            "water_class8", "water_class9",
+#            "Rrs_412", "Rrs_443", "Rrs_490", "Rrs_510", "Rrs_560", "Rrs_665",
+#            "atot_412", "atot_443", "atot_490", "atot_510", "atot_560",
+#            "adg_412", "adg_443", "adg_490", "adg_510", "adg_560", "adg_665",
+#            ]
 
 
 [ep-xgboost]
@@ -66,6 +90,30 @@ input_datadir = "./indata"
     # rate_drop: 0.00011689360891049891
     # skip_drop: 3.7849279489120896e-07
 
+[ep-xgboost-allsat]
+    name = "ep-xgboost-allsat"
+    input_file = "mouw_monthly_allsat_owt.h5"
+    features = ["month", "chl", "sst", "sat_par", "Zeu", "kd_490", "basin",
+                "water_class13", "water_class12", "water_class10",
+                "atot_510", "atot_560",
+                ]
+
+    [ep-xgboost-allsat.xgb_params]
+        tree_method="hist"
+        min_child_weight=2
+        booster = "gbtree"
+        lambda = 0.0014827319334437085
+        alpha = 3.3467640766496714e-08
+        subsample = 0.8191574894232188
+        colsample_bynode = 0.8088945102384242
+        reg_lambda = 19.58104015331891
+        max_depth = 11
+        eta = 0.4096969502360625
+        gamma = 1.0548222145396643e-05
+        grow_policy = "lossguide"
+        device = "cuda"
+
+
 [ep-psd]
 features = ["month", "chl", "sst", "sat_par", "Zeu", "kd_490", "basin", "psd"]
 input_file = "mouw_rf_sat_month_psd.h5"
@@ -84,4 +132,3 @@ features = ["lat", "lon", "depth", "chl", "sst", 'month', 'sat_par',
 [ep-depth-profiles]
 features = ["lat", "lon", "depth", "chl", "sst", 'month', 'sat_par',
            'basin', 'biome', "kd_490","Zeu", "longhurst", "UUID"]
-

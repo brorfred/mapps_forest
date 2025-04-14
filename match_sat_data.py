@@ -5,9 +5,10 @@ import numpy as np
 import pandas as pd
 import xarray as xr
 
-from njord2 import ostia, oc_cci_day, modis, seawifs, match, tiho_psd
-from njord2 import oc_cci, longhurst
-from oceandata import mapps as mapps_data
+from njord import ostia, modis, seawifs, match, tiho_psd
+from njord import longhurst
+from njord import oc_cci_local as oc_cci
+#from oceandata import mapps as mapps_data
 from utils import daylength as calc_daylength
 
 def match_longhurst(df):
@@ -17,13 +18,13 @@ def match_longhurst(df):
     df["basin"] =     mt.sameday(df.lon, df.lat, dtmvec, "basins", nei=1)
     df["biome"] =     mt.sameday(df.lon, df.lat, dtmvec, "biomes", nei=1)
 
-def match_par(df, timetype="day", dtmvec=None, days_behind=30):
+def match_par_behind(df, timetype="day", dtmvec=None, days_behind=30):
     dtmvec = df.index if dtmvec is None else dtmvec
     mask = df.index>"2003-01-01"
     marr = np.full((len(df), days_behind+1) , np.nan)
     if np.sum(mask) > 0:
         mt = match.Match(modis, dskw={"timetype":timetype})
-        marr[mask] = np.squeeze(mt.multiday(df.lon[mask], df.lat[mask], dtmvec[mask], "par", 
+        marr[mask] = np.squeeze(mt.multiday(df.lon[mask], df.lat[mask], dtmvec[mask], "par",
                                             days_behind=days_behind))
     mask = df.index<"2004-12-31"
     sarr = np.full((len(df), days_behind+1), np.nan)
@@ -31,6 +32,20 @@ def match_par(df, timetype="day", dtmvec=None, days_behind=30):
         mt = match.Match(seawifs, dskw={"timetype":timetype})
         sarr[mask] = np.squeeze(mt.multiday(df.lon[mask], df.lat[mask], dtmvec[mask], "par",
                                             days_behind=days_behind))
+    return np.nanmean((marr,sarr),axis=0)
+
+def match_par(df, timetype="day", dtmvec=None, days_behind=30):
+    dtmvec = df.index if dtmvec is None else dtmvec
+    mask = df.index>"2003-01-01"
+    marr = np.full((len(df),) , np.nan)
+    if np.sum(mask) > 0:
+        mt = match.Match(modis, dskw={"timetype":timetype})
+        marr[mask] = np.squeeze(mt.sameday(df.lon[mask], df.lat[mask], dtmvec[mask], "par"))
+    mask = df.index<"2004-12-31"
+    sarr = np.full((len(df),), np.nan)
+    if sum(mask) > 0:
+        mt = match.Match(seawifs, dskw={"timetype":timetype})
+        sarr[mask] = np.squeeze(mt.sameday(df.lon[mask], df.lat[mask], dtmvec[mask], "par"))
     return np.nanmean((marr,sarr),axis=0)
 
 
@@ -41,12 +56,46 @@ def match_monthly(df):
     df = df[df["lat"].notnull()]
 
     df["month"] = df.index.month
-    dtmvec = df.index.normalize().snap("MS") 
+    dtmvec = df.index.normalize().snap("MS")
     mt = match.Match(ostia, dskw={"timetype":"mo"})
     df["sst"] = mt.sameday(df.lon, df.lat, dtmvec, "sst")
-    mt = match.Match(oc_cci)
+    mt = match.Match(oc_cci, dskw={"timetype":"mo"})
     df["chl"]    = mt.sameday(df.lon, df.lat, dtmvec, data_var="chlor_a")
     df["kd_490"] = mt.sameday(df.lon, df.lat, dtmvec, data_var="kd_490")
+    df["water_class1"] = mt.sameday(df.lon, df.lat, dtmvec, data_var="water_class1")
+    df["water_class2"] = mt.sameday(df.lon, df.lat, dtmvec, data_var="water_class2")
+    df["water_class3"] = mt.sameday(df.lon, df.lat, dtmvec, data_var="water_class3")
+    df["water_class4"] = mt.sameday(df.lon, df.lat, dtmvec, data_var="water_class4")
+    df["water_class5"] = mt.sameday(df.lon, df.lat, dtmvec, data_var="water_class5")
+    df["water_class6"] = mt.sameday(df.lon, df.lat, dtmvec, data_var="water_class6")
+    df["water_class7"] = mt.sameday(df.lon, df.lat, dtmvec, data_var="water_class7")
+    df["water_class8"] = mt.sameday(df.lon, df.lat, dtmvec, data_var="water_class8")
+    df["water_class9"] = mt.sameday(df.lon, df.lat, dtmvec, data_var="water_class9")
+    df["water_class10"] = mt.sameday(df.lon, df.lat, dtmvec, data_var="water_class10")
+    df["water_class11"] = mt.sameday(df.lon, df.lat, dtmvec, data_var="water_class11")
+    df["water_class12"] = mt.sameday(df.lon, df.lat, dtmvec, data_var="water_class12")
+    df["water_class13"] = mt.sameday(df.lon, df.lat, dtmvec, data_var="water_class13")
+    df["water_class14"] = mt.sameday(df.lon, df.lat, dtmvec, data_var="water_class14")
+    df["Rrs_412"] = mt.sameday(df.lon, df.lat, dtmvec, data_var="Rrs_412")
+    df["Rrs_443"] = mt.sameday(df.lon, df.lat, dtmvec, data_var="Rrs_443")
+    df["Rrs_490"] = mt.sameday(df.lon, df.lat, dtmvec, data_var="Rrs_490")
+    df["Rrs_510"] = mt.sameday(df.lon, df.lat, dtmvec, data_var="Rrs_510")
+    df["Rrs_560"] = mt.sameday(df.lon, df.lat, dtmvec, data_var="Rrs_560")
+    df["Rrs_665"] = mt.sameday(df.lon, df.lat, dtmvec, data_var="Rrs_665")
+    df["atot_412"] = mt.sameday(df.lon, df.lat, dtmvec, data_var="atot_412")
+    df["atot_443"] = mt.sameday(df.lon, df.lat, dtmvec, data_var="atot_443")
+    df["atot_490"] = mt.sameday(df.lon, df.lat, dtmvec, data_var="atot_490")
+    df["atot_510"] = mt.sameday(df.lon, df.lat, dtmvec, data_var="atot_510")
+    df["atot_560"] = mt.sameday(df.lon, df.lat, dtmvec, data_var="atot_560")
+    df["atot_665"] = mt.sameday(df.lon, df.lat, dtmvec, data_var="atot_665")
+    df["adg_412"] = mt.sameday(df.lon, df.lat, dtmvec, data_var="adg_412")
+    df["adg_443"] = mt.sameday(df.lon, df.lat, dtmvec, data_var="adg_443")
+    df["adg_490"] = mt.sameday(df.lon, df.lat, dtmvec, data_var="adg_490")
+    df["adg_510"] = mt.sameday(df.lon, df.lat, dtmvec, data_var="adg_510")
+    df["adg_560"] = mt.sameday(df.lon, df.lat, dtmvec, data_var="adg_560")
+    df["adg_665"] = mt.sameday(df.lon, df.lat, dtmvec, data_var="adg_665")
+
+
     df["Zeu"] = 4.6/df["kd_490"]
     match_par(df, timetype="mo", dtmvec=dtmvec)
     match_longhurst(df)
@@ -78,7 +127,7 @@ def match_upstream(days_behind=30):
     mt = match.Match(ostia)
     dtmarr = mt.dtm_array(df.index, days_behind=days_behind)
     dlen = []
-    for dtm in dtmarr.T: 
+    for dtm in dtmarr.T:
         dlen.append(calc_daylength(pd.to_datetime(dtm).dayofyear, df.lat))
     dlen = np.array(dlen).T
     ds["daylength"] = (("sample", "days_from_obs"), dlen)
@@ -105,7 +154,7 @@ def match_upstream(days_behind=30):
                     coords={"date":(("sample", "days_from_obs"), dtmarr),
                             "days_from_obs":range(-days_behind,1,1)}
                     )
-    for key in ['ID', 'lat', 'lon', 'depth', 'temp', 'NO3', 'Si4', 'PO4', 
+    for key in ['ID', 'lat', 'lon', 'depth', 'temp', 'NO3', 'Si4', 'PO4',
                 'alpha', 'PBmax', 'Ek', 'month',
                 'longhurst', 'basin', 'biome', 'PB']:
         ds[key] = (("sample",), df[key])
