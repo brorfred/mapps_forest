@@ -1,16 +1,17 @@
 
+import pandas as pd
 
-import shap 
+import shap
 
 import matplotlib.pyplot as plt
 
 def calc_shap(model):
     X = pd.concat((model.X_train,model.X_test))
     explainer = shap.TreeExplainer(model=model, data=X)
-    shap_values = explainer.shap_values(X)
+    shap_values = explainer(X)
     shap_values.X = X
     return shap_values
-    
+
 def bar(shap_values):
     plt.clf()
     shap.plots.bar(shap_values)

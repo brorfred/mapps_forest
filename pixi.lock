@@ -6112,8 +6112,8 @@ packages:
   timestamp: 1731521053408
 - pypi: /home/bror/code/njord
   name: njord
-  version: '1.0'
-  sha256: 27330c3c2f7c03b66e6cc926855e0c0b114e1b9fb15e177cc780b37f18cb2443
+  version: 1.0.1
+  sha256: 85662c62347bc122f322ca58590f1f7ed92379023a96c796767fd225d295dff5
   requires_dist:
   - bs4>=0.0.1,<0.0.2
   - click>=8.0.3,<9.0.0

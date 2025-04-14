@@ -37,7 +37,7 @@ dist
 *.acr
 *.alg
 *.bbl
-*.blg
+v*.blg
 *.tui
 *.top
 *.tmp
@@ -73,3 +73,6 @@ Backup[ ]of[ ]*.numbers/
 # pixi environments
 .pixi
 *.egg-info
+
+
+figs/slask

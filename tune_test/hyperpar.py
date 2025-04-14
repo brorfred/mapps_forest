@@ -1,4 +1,4 @@
-import sys 
+import sys
 from contextlib import redirect_stdout
 
 
@@ -19,16 +19,17 @@ from ocean_forest.random_forest import load, clean_data, dump_model, load_model
 import xg_boost
 
 
-def rf_objective(trial, env="default"):
+def rf_objective(trial, env="ep-rf-allsat"):
     """
-    
+
     Ref
     ---
     https://pub.aimind.so/hyperparameter-optimization-of-random-forest-model-using-optuna-for-a-regression-problem-6f49d9b520b7
     https://medium.com/@kalpit.sharma/mastering-random-forest-hyperparameter-tuning-for-enhanced-machine-learning-models-2d1a8c6c426f
     """
-
+    print(env)
     df = load(env)
+    print(df.keys())
     X,y = clean_data(df, env=env, depths=True)
     train_x, test_x, train_y, test_y = train_test_split(X, y, test_size=0.25)
 

@@ -1,0 +1,42 @@
+# Set black background default line colors to white.
+
+lines.color: white
+patch.edgecolor: white
+
+text.color: white
+
+axes.facecolor: black
+axes.edgecolor: white
+axes.labelcolor: white
+#axes.prop_cycle: cycler('color', ['8dd3c7', 'feffb3', 'bfbbd9', 'fa8174', '81b1d2', 'fdb462', 'b3de69', 'bc82bd', 'ccebc4', 'ffed6f'])
+axes.prop_cycle:  cycler('color', ['66c2a5', 'fc8d62', '8da0cb', 'e78ac3', 'a6d854', 'ffd92f', 'e5c494', 'b3b3b3'])
+xtick.color: white
+ytick.color: white
+
+grid.color: white
+
+figure.facecolor: black
+figure.edgecolor: black
+
+savefig.facecolor: black
+savefig.edgecolor: black
+
+### Boxplots
+boxplot.boxprops.color: white
+boxplot.capprops.color: white
+boxplot.flierprops.color: white
+boxplot.flierprops.markeredgecolor: white
+boxplot.whiskerprops.color: white
+
+### Legend
+legend.frameon: False
+
+axes.titlesize : 16
+axes.labelsize : 16
+lines.linewidth : 3
+lines.markersize : 10
+xtick.labelsize : 16
+ytick.labelsize : 16
+
+font.family : sans-serif
+#font.sans-serif : Avenir, AvenirNextLTPro, "Avenir Next LT Pro", Univers, UniversLTStd, AvenirNextLTPro-Regular, UniversLTStd-Light, Verdana, Helvetica
